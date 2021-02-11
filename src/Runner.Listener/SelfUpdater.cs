@@ -357,8 +357,10 @@ namespace GitHub.Runner.Listener
             Trace.Info($"Copy any remaining .sh/.cmd files into runner root.");
             foreach (FileInfo file in new DirectoryInfo(latestRunnerDirectory).GetFiles() ?? new FileInfo[0])
             {
+                string dest = Path.Combine(HostContext.GetDirectory(WellKnownDirectory.Root), file.Name);
                 // Copy and replace the file.
-                file.CopyTo(Path.Combine(HostContext.GetDirectory(WellKnownDirectory.Root), file.Name), true);
+                Trace.Info($"Copy ${file.FullName} to ${dest}");
+                file.CopyTo(dest, true);
             }
         }
 
